@@ -24,7 +24,9 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 " NeoBundle自身を管理
 NeoBundleFetch 'Shougo/neobundle.vim'
 " カラースキームsolarized
-NeoBundle 'altercation/vim-colors-solarized'
+"NeoBundle 'altercation/vim-colors-solarized'
+" カラースキーム neodark
+NeoBundle 'KeitaNakamura/neodark.vim'
 " ステータスラインの表示内容強化
 NeoBundle 'itchyny/lightline.vim'
 " インデントの可視化
@@ -35,17 +37,25 @@ NeoBundle 'scrooloose/syntastic'
 NeoBundle 'pmsorhaindo/syntastic-local-eslint.vim'
 " NERDTree
 NeoBundle 'scrooloose/nerdtree'
+" git plugin for NERDTree
+NeoBundle 'Xuyuanp/nerdtree-git-plugin'
+" display git diff at the left of row number
+NeoBundle "airblade/vim-gitgutter"
+" git diff on code
+NeoBundle "tpope/vim-fugitive"
 " emmet
 " NeoBundle 'mattn/emmet-vim'
+" Vimpyter
+" NeoBundle 'szymonmaszke/vimpyter'
 
 " vimのlua機能が使える時だけ以下のVimプラグインをインストールする
 if has('lua')
     " コードの自動補完
-    NeoBundle 'Shougo/neocomplete.vim'
+    " NeoBundle 'Shougo/neocomplete.vim'
     " スニペットの補完機能
-    NeoBundle "Shougo/neosnippet"
+    " NeoBundle 'Shougo/neosnippet'
     " スニペット集
-    NeoBundle 'Shougo/neosnippet-snippets'
+    " NeoBundle 'Shougo/neosnippet-snippets'
 endif
 
 call neobundle#end()
@@ -61,7 +71,7 @@ NeoBundleCheck
 "----------------------------------------------------------
 syntax enable
 set background=dark
-colorscheme solarized
+colorscheme neodark
 
 "----------------------------------------------------------
 " 文字
@@ -345,6 +355,7 @@ call NERDTreeHighlightFile('rb',     'Red',     'none', 'red',     '#151515')
 call NERDTreeHighlightFile('js',     'Red',     'none', '#ffa500', '#151515')
 call NERDTreeHighlightFile('php',    'Magenta', 'none', '#ff00ff', '#151515')
 
+let g:NERDTreeNodeDelimiter = "\u00a0"
 
 "----------------------------------------------------------
 " New window
@@ -437,3 +448,10 @@ command! -nargs=*
 " if has('vim_starting')
 "   call s:vimrc_local(getcwd(), '.init.vimrc')
 " endif
+
+
+" Vimpyter
+" autocmd Filetype ipynb nmap <silent><Leader>b :VimpyterInsertPythonBlock<CR>
+" autocmd Filetype ipynb nmap <silent><Leader>j :VimpyterStartJupyter<CR>
+" autocmd Filetype ipynb nmap <silent><Leader>n :VimpyterStartNteract<CR>
+
