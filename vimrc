@@ -1,70 +1,117 @@
-set encoding=utf-8
 scriptencoding utf-8
+set encoding=utf-8
 " ↑1行目は読み込み時の文字コードの設定
 " ↑2行目はVim Script内でマルチバイトを使う場合の設定
 " Vim scritptにvimrcも含まれるので、日本語でコメントを書く場合は先頭にこの設定が必要になる
 
 "----------------------------------------------------------
+" dein.vim
+"----------------------------------------------------------
+if &compatible
+  set nocompatible
+endif
+" Add the dein installation directory into runtimepath
+set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
+
+if dein#load_state('~/.vim/dein')
+  call dein#begin('~/.vim/dein')
+
+  call dein#add('~/.vim/dein/repos/github.com/Shougo/dein.vim')
+  call dein#add('Shougo/deoplete.nvim')
+  
+  " カラースキーム neodark
+  call dein#add('KeitaNakamura/neodark.vim')
+  " ステータスラインの表示内容強化
+  call dein#add('itchyny/lightline.vim')
+  " インデントの可視化
+  call dein#add('Yggdroot/indentLine')
+  " 構文エラーチェック
+  call dein#add('scrooloose/syntastic')
+  " プロジェクトに入ってるESLintを読み込む
+  call dein#add('pmsorhaindo/syntastic-local-eslint.vim')
+  " NERDTree
+  call dein#add('scrooloose/nerdtree')
+  " Git plugin of NERDTree
+  call dein#add('Xuyuanp/nerdtree-git-plugin')
+  " display git diff at the left of row number
+  call dein#add('airblade/vim-gitgutter')
+  " git diff on code
+  call dein#add('tpope/vim-fugitive')
+
+  if !has('nvim')
+    call dein#add('roxma/nvim-yarp')
+    call dein#add('roxma/vim-hug-neovim-rpc')
+  endif
+
+  call dein#end()
+  call dein#save_state()
+endif
+
+filetype plugin indent on
+syntax enable
+
+
+"----------------------------------------------------------
 " NeoBundle
 "----------------------------------------------------------
-if has('vim_starting')
-    " 初回起動時のみruntimepathにNeoBundleのパスを指定する
-    set runtimepath+=~/.vim/bundle/neobundle.vim/
-
-    " NeoBundleが未インストールであればgit cloneする・・・・・・①
-    if !isdirectory(expand("~/.vim/bundle/neobundle.vim/"))
-        echo "install NeoBundle..."
-        :call system("git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim")
-    endif
-endif
-
-call neobundle#begin(expand('~/.vim/bundle/'))
-
-" インストールするVimプラグインを以下に記述
-" NeoBundle自身を管理
-NeoBundleFetch 'Shougo/neobundle.vim'
-" カラースキームsolarized
-"NeoBundle 'altercation/vim-colors-solarized'
-" カラースキーム neodark
-NeoBundle 'KeitaNakamura/neodark.vim'
-" ステータスラインの表示内容強化
-NeoBundle 'itchyny/lightline.vim'
-" インデントの可視化
-NeoBundle 'Yggdroot/indentLine'
-" 構文エラーチェック
-NeoBundle 'scrooloose/syntastic'
-" プロジェクトに入ってるESLintを読み込む
-NeoBundle 'pmsorhaindo/syntastic-local-eslint.vim'
-" NERDTree
-NeoBundle 'scrooloose/nerdtree'
-" git plugin for NERDTree
-NeoBundle 'Xuyuanp/nerdtree-git-plugin'
-" display git diff at the left of row number
-NeoBundle "airblade/vim-gitgutter"
-" git diff on code
-NeoBundle "tpope/vim-fugitive"
-" emmet
-" NeoBundle 'mattn/emmet-vim'
-" Vimpyter
-" NeoBundle 'szymonmaszke/vimpyter'
-
-" vimのlua機能が使える時だけ以下のVimプラグインをインストールする
-if has('lua')
-    " コードの自動補完
-    " NeoBundle 'Shougo/neocomplete.vim'
-    " スニペットの補完機能
-    " NeoBundle 'Shougo/neosnippet'
-    " スニペット集
-    " NeoBundle 'Shougo/neosnippet-snippets'
-endif
-
-call neobundle#end()
-
-" ファイルタイプ別のVimプラグイン/インデントを有効にする
-filetype plugin indent on
-
-" 未インストールのVimプラグインがある場合、インストールするかどうかを尋ねてくれるようにする設定
-NeoBundleCheck
+" if has('vim_starting')
+"     " 初回起動時のみruntimepathにNeoBundleのパスを指定する
+"     set runtimepath+=~/.vim/bundle/neobundle.vim/
+" 
+"     " NeoBundleが未インストールであればgit cloneする・・・・・・①
+"     if !isdirectory(expand("~/.vim/bundle/neobundle.vim/"))
+"         echo "install NeoBundle..."
+"         :call system("git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim")
+"     endif
+" endif
+" 
+" call neobundle#begin(expand('~/.vim/bundle/'))
+" 
+" " インストールするVimプラグインを以下に記述
+" " NeoBundle自身を管理
+" NeoBundleFetch 'Shougo/neobundle.vim'
+" " カラースキームsolarized
+" "NeoBundle 'altercation/vim-colors-solarized'
+" " カラースキーム neodark
+" NeoBundle 'KeitaNakamura/neodark.vim'
+" " ステータスラインの表示内容強化
+" NeoBundle 'itchyny/lightline.vim'
+" " インデントの可視化
+" NeoBundle 'Yggdroot/indentLine'
+" " 構文エラーチェック
+" NeoBundle 'scrooloose/syntastic'
+" " プロジェクトに入ってるESLintを読み込む
+" NeoBundle 'pmsorhaindo/syntastic-local-eslint.vim'
+" " NERDTree
+" NeoBundle 'scrooloose/nerdtree'
+" " git plugin for NERDTree
+" NeoBundle 'Xuyuanp/nerdtree-git-plugin'
+" " display git diff at the left of row number
+" NeoBundle "airblade/vim-gitgutter"
+" " git diff on code
+" NeoBundle "tpope/vim-fugitive"
+" " emmet
+" " NeoBundle 'mattn/emmet-vim'
+" " Vimpyter
+" " NeoBundle 'szymonmaszke/vimpyter'
+" 
+" " vimのlua機能が使える時だけ以下のVimプラグインをインストールする
+" if has('lua')
+"     " コードの自動補完
+"     " NeoBundle 'Shougo/neocomplete.vim'
+"     " スニペットの補完機能
+"     " NeoBundle 'Shougo/neosnippet'
+"     " スニペット集
+"     " NeoBundle 'Shougo/neosnippet-snippets'
+" endif
+" 
+" call neobundle#end()
+" 
+" " ファイルタイプ別のVimプラグイン/インデントを有効にする
+" filetype plugin indent on
+" 
+" " 未インストールのVimプラグインがある場合、インストールするかどうかを尋ねてくれるようにする設定
+" NeoBundleCheck
 
 "----------------------------------------------------------
 " カラースキーム
@@ -135,7 +182,7 @@ if has("autocmd")
   "ファイルタイプに合わせたインデントを利用
   filetype indent on
   "sw=softtabstop, sts=shiftwidth, ts=tabstop, et=expandtabの略
-  autocmd FileType c           setlocal sw=4 sts=4 ts=4 et
+  autocmd FileType c           setlocal sw=2 sts=2 ts=2 et
   autocmd FileType html        setlocal sw=2 sts=2 ts=2 et
   autocmd FileType ruby        setlocal sw=2 sts=2 ts=2 et
   autocmd FileType js          setlocal sw=2 sts=2 ts=2 et
@@ -223,25 +270,25 @@ set clipboard+=unnamed
 "----------------------------------------------------------
 " neocomplete・neosnippetの設定
 "----------------------------------------------------------
-if neobundle#is_installed('neocomplete.vim')
-    " Vim起動時にneocompleteを有効にする
-    let g:neocomplete#enable_at_startup = 1
-    " smartcase有効化. 大文字が入力されるまで大文字小文字の区別を無視する
-    let g:neocomplete#enable_smart_case = 1
-    " 3文字以上の単語に対して補完を有効にする
-    let g:neocomplete#min_keyword_length = 3
-    " 区切り文字まで補完する
-    let g:neocomplete#enable_auto_delimiter = 1
-    " 1文字目の入力から補完のポップアップを表示
-    let g:neocomplete#auto_completion_start_length = 1
-    " バックスペースで補完のポップアップを閉じる
-    inoremap <expr><BS> neocomplete#smart_close_popup()."<C-h>"
+" if neobundle#is_installed('neocomplete.vim')
+" Vim起動時にneocompleteを有効にする
+let g:neocomplete#enable_at_startup = 1
+" smartcase有効化. 大文字が入力されるまで大文字小文字の区別を無視する
+let g:neocomplete#enable_smart_case = 1
+" 3文字以上の単語に対して補完を有効にする
+let g:neocomplete#min_keyword_length = 3
+" 区切り文字まで補完する
+let g:neocomplete#enable_auto_delimiter = 1
+" 1文字目の入力から補完のポップアップを表示
+let g:neocomplete#auto_completion_start_length = 1
+" バックスペースで補完のポップアップを閉じる
+inoremap <expr><BS> neocomplete#smart_close_popup()."<C-h>"
 
-    " エンターキーで補完候補の確定. スニペットの展開もエンターキーで確定
-    imap <expr><CR> neosnippet#expandable() ? "<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "<C-y>" : "<CR>"
-    " タブキーで補完候補の選択. スニペット内のジャンプもタブキーでジャンプ
-    imap <expr><TAB> pumvisible() ? "<C-n>" : neosnippet#jumpable() ? "<Plug>(neosnippet_expand_or_jump)" : "<TAB>"
-endif
+" エンターキーで補完候補の確定. スニペットの展開もエンターキーで確定
+imap <expr><CR> neosnippet#expandable() ? "<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "<C-y>" : "<CR>"
+" タブキーで補完候補の選択. スニペット内のジャンプもタブキーでジャンプ
+imap <expr><TAB> pumvisible() ? "<C-n>" : neosnippet#jumpable() ? "<Plug>(neosnippet_expand_or_jump)" : "<TAB>"
+" endif
 
 "----------------------------------------------------------
 " Syntastic
@@ -259,10 +306,12 @@ let g:syntastic_check_on_wq = 1
 
 " Javascript用. 構文エラーチェックにESLintを使用
 let g:syntastic_javascript_checkers=['eslint']
+" Python用の構文エラーチェックにFlake8を使用
+let g:syntastic_python_checkers = ["flake8"]
 " Javascript以外は構文エラーチェックをしない
-let g:syntastic_mode_map = { 'mode': 'passive',
-                           \ 'active_filetypes': ['javascript'],
-                           \ 'passive_filetypes': [] }
+" let g:syntastic_mode_map = { 'mode': 'passive',
+"                            \ 'active_filetypes': ['javascript'],
+"                            \ 'passive_filetypes': [] }
 
 "----------------------------------------------------------
 " NERDTree
