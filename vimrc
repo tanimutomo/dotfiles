@@ -1,7 +1,6 @@
 scriptencoding utf-8
 set encoding=utf-8
-" ↑1行目は読み込み時の文字コードの設定
-" ↑2行目はVim Script内でマルチバイトを使う場合の設定
+" ↑1行目は読み込み時の文字コードの設定 " ↑2行目はVim Script内でマルチバイトを使う場合の設定
 " Vim scritptにvimrcも含まれるので、日本語でコメントを書く場合は先頭にこの設定が必要になる
 
 "----------------------------------------------------------
@@ -17,8 +16,11 @@ if dein#load_state('~/.vim/dein')
   call dein#begin('~/.vim/dein')
 
   call dein#add('~/.vim/dein/repos/github.com/Shougo/dein.vim')
-  call dein#add('Shougo/deoplete.nvim')
   
+  " 補完機能
+  " call dein#add('davidhalter/jedi-vim')
+  " call dein#add('deoplete-plugins/deoplete-jedi')
+
   " カラースキーム neodark
   call dein#add('KeitaNakamura/neodark.vim')
   " ステータスラインの表示内容強化
@@ -38,7 +40,19 @@ if dein#load_state('~/.vim/dein')
   " git diff on code
   call dein#add('tpope/vim-fugitive')
 
+  " Completion
+  " call dein#add('Valloric/YouCompleteMe')
+  if has('lua')
+      " コードの自動補完
+      call dein#add('Shougo/neocomplete.vim')
+      " スニペットの補完機能
+      call dein#add('Shougo/neosnippet')
+      " スニペット集
+      call dein#add('Shougo/neosnippet-snippets')
+  endif
+
   if !has('nvim')
+    " call dein#add('Shougo/deoplete.nvim')
     call dein#add('roxma/nvim-yarp')
     call dein#add('roxma/vim-hug-neovim-rpc')
   endif
@@ -282,7 +296,7 @@ let g:neocomplete#enable_auto_delimiter = 1
 " 1文字目の入力から補完のポップアップを表示
 let g:neocomplete#auto_completion_start_length = 1
 " バックスペースで補完のポップアップを閉じる
-inoremap <expr><BS> neocomplete#smart_close_popup()."<C-h>"
+" inoremap <expr><BS> neocomplete#smart_close_popup()."<C-h>"
 
 " エンターキーで補完候補の確定. スニペットの展開もエンターキーで確定
 imap <expr><CR> neosnippet#expandable() ? "<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "<C-y>" : "<CR>"
@@ -503,4 +517,24 @@ command! -nargs=*
 " autocmd Filetype ipynb nmap <silent><Leader>b :VimpyterInsertPythonBlock<CR>
 " autocmd Filetype ipynb nmap <silent><Leader>j :VimpyterStartJupyter<CR>
 " autocmd Filetype ipynb nmap <silent><Leader>n :VimpyterStartNteract<CR>
+
+
+"----------------------------------------------------------
+" deoplete and jedi
+"----------------------------------------------------------
+"let g:deoplete#enable_at_startup = 1
+"let g:deoplete#auto_completion_start_length = 1
+"let g:deoplete#sources#jedi#statement_length=100
+" jedi本体の補完は切る（deoplete-jediで非同期処理をしてくれるため）
+"let g:jedi#completions_enabled = 0
+
+
+"----------------------------------------------------------
+" YouCompleteMe"
+"----------------------------------------------------------
+" let g:ycm_global_ycm_extra_conf = '${HOME}/.ycm_extra_conf.py'
+" let g:ycm_auto_trigger = 1
+" let g:ycm_min_num_of_chars_for_completion = 3
+" let g:ycm_autoclose_preview_window_after_insertion = 1
+" set splitbelow
 
