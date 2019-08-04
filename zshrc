@@ -121,6 +121,8 @@ alias gst='git status --short --branch'
 alias gad='git add'
 alias gcm='git commit -m'
 alias gcam='git commit --amend --no-edit'
+alias gpull='git pull'
+alias gpush='git push'
 # logを見やすく
 alias gl='git log --abbrev-commit --no-merges --date=short --date=iso'
 # grep
@@ -133,8 +135,8 @@ alias gcc='gcc-9'
 alias g++='g++-9'
 
 # GHQ
-alias gloc='cd $(ghq root)/$(ghq list | peco)'
-alias grem='hub browse $(ghq list | peco | cut -d "/" -f 2,3)'
+alias glocal='cd $(ghq root)/$(ghq list | peco)'
+alias gremote='hub browse $(ghq list | peco | cut -d "/" -f 2,3)'
 
 # zip
 alias untargz='tar -zxvf'
