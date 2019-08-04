@@ -135,6 +135,14 @@ alias g++='g++-9'
 # GHQ
 alias gloc='cd $(ghq root)/$(ghq list | peco)'
 alias grem='hub browse $(ghq list | peco | cut -d "/" -f 2,3)'
+
+# zip
+alias untargz='tar -zxvf'
+
+# ssh
+alias diana='ssh diana'
+alias chasca='ssh chasca'
+alias bacchus='ssh bacchus'
 # }}}
 
 
@@ -228,4 +236,5 @@ eval "$(pyenv init -)"
 export JAVA_HOME=`/usr/libexec/java_home -v "1.8"`
 export PATH=$JAVA_HOME/bin:$PATH
 # }}}
+
 
