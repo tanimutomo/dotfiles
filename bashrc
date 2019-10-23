@@ -117,9 +117,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# for vim install 2018/12/30
-export PATH=$HOME/usr/bin:$PATH
-
 export PYENV_ROOT=$HOME/.pyenv
 export PATH=$PYENV_ROOT/bin:$PATH
 eval "$(pyenv init -)"
@@ -127,13 +124,11 @@ eval "$(pyenv init -)"
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 
-
 # for go lang
 if [ -x "`which go`" ]; then
   export GOPATH=$HOME/go
   export PATH="$GOPATH/bin:$PATH"
 fi
-
 
 # ALIAS {{{
 
@@ -143,7 +138,6 @@ alias ..3='cd ../../..'
 alias ..4='cd ../../../..'
 
 # kronos
-# export PATH=$HOME/.usr/kronos/bin:$PATH
 alias kronos-update='pip3 uninstall kronos-ml && python3 setup.py build && python3 setup.py install && source ~/.zshrc && which kronos'
 alias kronos-update-pypi='pip3 uninstall kronos-ml && pip3 --no-cache-dir install --upgrade --index-url https://test.pypi.org/simple/ kronos-ml'
 
@@ -164,6 +158,7 @@ alias dc='docker-compose'
 alias g="git"
 alias gst='git status --short --branch'
 alias gad='git add'
+alias gck='git checkout'
 alias gcm='git commit -m'
 alias gcam='git commit --amend --no-edit'
 alias gpull='git pull'
