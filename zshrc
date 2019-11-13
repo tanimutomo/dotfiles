@@ -75,7 +75,8 @@ man() {
 PROMPT='
 %F{cyan}%n@%m / %*
 %F{yellow}%(5~,%-1~/.../%2~,%~)%f
-%F{cyan}%B●%b%f'
+%F{cyan}%B● %b%f'
+# ●
 
 # vcs_info
 autoload -Uz vcs_info
@@ -129,6 +130,7 @@ alias gl='git log --abbrev-commit --no-merges --date=short --date=iso'
 alias glg='git log --abbrev-commit --no-merges --date=short --date=iso --grep'
 alias gd='git diff'
 alias gb='git branch'
+alias gck='git checkout'
 
 # path for gcc and g++
 alias gcc='gcc-9'
@@ -145,6 +147,7 @@ alias untargz='tar -zxvf'
 alias diana='ssh diana'
 alias chasca='ssh chasca'
 alias bacchus='ssh bacchus'
+alias abci='ssh abci'
 # }}}
 
 
@@ -217,26 +220,36 @@ compctl -K _pip_completion pip3
 
 
 # ENVIRONMENT {{{
+### More down, More important
+
 # homebrew
-export PATH=$HOME/.usr/local/bin:$PATH
 export PATH=$HOME/.homebrew/bin:$PATH
-export PATH=$HOME/.homebrew/bin/zsh:$PATH
-export PATH="/Users/tanimu/.homebrew/opt/grep/libexec/gnubin:$PATH"
+# export PATH=$HOME/.homebrew/bin/zsh:$PATH
+# export PATH="/Users/tanimu/.homebrew/opt/grep/libexec/gnubin:$PATH"
 
 # nodebrew
-export PATH=$HOME/.nodebrew/current/bin:$PATH
+# export PATH=$HOME/.nodebrew/current/bin:$PATH
+
+# local
+export PATH=$HOME/.local/bin:$PATH
 
 # pyenv environment and path
 export PYENV_ROOT=$HOME/.pyenv
 export PATH=$PYENV_ROOT/bin:$PATH
 eval "$(pyenv init -)"
 
-# execop
-. $HOME/.execop.zsh
-
 # JAVA HOME
-export JAVA_HOME=`/usr/libexec/java_home -v "1.8"`
-export PATH=$JAVA_HOME/bin:$PATH
-# }}}
+# export JAVA_HOME=`/usr/libexec/java_home -v "1.8"`
+# export PATH=$JAVA_HOME/bin:$PATH
+# The next line updates PATH for the Google Cloud SDK.
 
+# execop
+# . $HOME/.lib/.execop.zsh
+
+# Gooogle Cloud SDK
+if [ -f '/Users/tanimu/.lib/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/tanimu/.lib/google-cloud-sdk/path.zsh.inc'; fi
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/tanimu/.lib/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/tanimu/.lib/google-cloud-sdk/completion.zsh.inc'; fi
+
+# }}}
 
