@@ -1,10 +1,14 @@
 export LANG="en_US.UTF-8"
 
-# INPORTS {{{
-source ~/.zplug/init.zsh
-# }}}
+### INPORTS ################################################
 
-# PLUGINS {{{
+source ~/.zplug/init.zsh
+
+############################################################
+
+
+### PLUGINS ################################################
+
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug "b4b4r07/zsh-vimode-visual", defer:3
 zplug "zsh-users/zsh-completions"
@@ -13,11 +17,12 @@ zplug "zsh-users/zsh-autosuggestions"
 zplug load
 setopt nonomatch
 export ZSH_HIGHLIGHT_STYLES[path]='fg=081'
-# }}}
+
+############################################################
 
 
-# HISTORY {{{
-# history
+### HISTORY ################################################
+
 HISTFILE=$HOME/.zsh-history
 HISTSIZE=10000
 SAVEHIST=100000
@@ -35,10 +40,12 @@ if [[ -n $(echo ${^fpath}/chpwd_recent_dirs(N)) && -n $(echo ${^fpath}/cdr(N)) ]
     zstyle ':chpwd:*' recent-dirs-max 1000
     zstyle ':chpwd:*' recent-dirs-file "$HOME/.cache/chpwd-recent-dirs"
 fi
-# }}}
+
+############################################################
 
 
-# COLOR {{{
+### COLORS #################################################
+
 # LS_COLORS
 # eval `dircolors -b`
 # eval `dircolors ${HOME}/.dircolors`
@@ -67,92 +74,12 @@ man() {
         LESS_TERMCAP_us=$(printf "\e[1;32m") \
         man "$@"
 }
-# }}}
+
+############################################################
 
 
-# PROMPT {{{
-# prompt
-PROMPT='
-%F{cyan}%n@%m / %*
-%F{yellow}%(5~,%-1~/.../%2~,%~)%f
-%F{cyan}%B● %b%f'
-# ●
+### PECO ###################################################
 
-# vcs_info
-autoload -Uz vcs_info
-setopt prompt_subst
-zstyle ':vcs_info:git:*' check-for-changes true
-zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!"
-zstyle ':vcs_info:git:*' unstagedstr "%F{red}+"
-zstyle ':vcs_info:*' formats "%F{green}%c%u[ %b ]%f"
-zstyle ':vcs_info:*' actionformats '[%b|%a]'
-precmd () { vcs_info }
-RPROMPT='${vcs_info_msg_0_} '$RPROMPT
-# }}}
-
-
-# ALIAS {{{
-
-# cd
-alias ..2='cd ../..'
-alias ..3='cd ../../..'
-alias ..4='cd ../../../..'
-
-# kronos
-# export PATH=$HOME/.usr/kronos/bin:$PATH
-alias kronos-update='pip3 uninstall kronos-ml && python3 setup.py build && python3 setup.py install && source ~/.zshrc && which kronos'
-alias kronos-update-pypi='pip3 uninstall kronos-ml && pip3 --no-cache-dir install --upgrade --index-url https://test.pypi.org/simple/ kronos-ml'
-
-# ls alias
-alias ll='ls -alh'
-
-# vim alias
-alias v='vim'
-alias vi='vim'
-
-# docker
-alias d='docker'
-# デフォルトだと見切れるので、表示項目を変更しています。
-alias dps='docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Ports}}\t{{.Status}}"'
-alias dc='docker-compose'
-
-# git
-alias g="git"
-alias gst='git status --short --branch'
-alias gad='git add'
-alias gcm='git commit -m'
-alias gcam='git commit --amend --no-edit'
-alias gpull='git pull'
-alias gpush='git push'
-# logを見やすく
-alias gl='git log --abbrev-commit --no-merges --date=short --date=iso'
-# grep
-alias glg='git log --abbrev-commit --no-merges --date=short --date=iso --grep'
-alias gd='git diff'
-alias gb='git branch'
-alias gck='git checkout'
-
-# path for gcc and g++
-alias gcc='gcc-9'
-alias g++='g++-9'
-
-# GHQ
-alias glocal='cd $(ghq root)/$(ghq list | peco)'
-alias gremote='hub browse $(ghq list | peco | cut -d "/" -f 2,3)'
-
-# zip
-alias untargz='tar -zxvf'
-
-# ssh
-alias diana='ssh diana'
-alias chasca='ssh chasca'
-alias bacchus='ssh bacchus'
-alias abci='ssh abci'
-# }}}
-
-
-# PECO {{{
-# peco
 function peco-history-selection() {
     BUFFER=`history -n 1 | tac  | awk '!a[$0]++' | peco`
     CURSOR=$#BUFFER
@@ -171,10 +98,12 @@ function peco-cdr () {
 }
 zle -N peco-cdr
 bindkey '^E' peco-cdr
-# }}}
+
+############################################################
 
 
-# COMPLETION {{{
+### COMPLETION #############################################
+
 # 補完機能有効にする
 autoload -U compinit
 compinit -u
@@ -216,19 +145,109 @@ function _pip_completion {
              PIP_AUTO_COMPLETE=1 $words[1] ) )
 }
 compctl -K _pip_completion pip3
-# }}}
+
+############################################################
 
 
-# ENVIRONMENT {{{
-### More down, More important
+### PROMPT #################################################
+
+PROMPT='
+%F{cyan}%n@%m / %*
+%F{yellow}%(5~,%-1~/.../%2~,%~)%f
+%F{cyan}%B● %b%f'
+# ●
+
+# vcs_info
+autoload -Uz vcs_info
+setopt prompt_subst
+zstyle ':vcs_info:git:*' check-for-changes true
+zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!"
+zstyle ':vcs_info:git:*' unstagedstr "%F{red}+"
+zstyle ':vcs_info:*' formats "%F{green}%c%u[ %b ]%f"
+zstyle ':vcs_info:*' actionformats '[%b|%a]'
+precmd () { vcs_info }
+RPROMPT='${vcs_info_msg_0_} '$RPROMPT
+
+############################################################
+
+
+### ALIAS ##################################################
+
+# cd
+alias ..2='cd ../..'
+alias ..3='cd ../../..'
+alias ..4='cd ../../../..'
+
+# kronos
+# export PATH=$HOME/.usr/kronos/bin:$PATH
+alias kronos-update='pip3 uninstall kronos-ml && python3 setup.py build && python3 setup.py install && source ~/.zshrc && which kronos'
+alias kronos-update-pypi='pip3 uninstall kronos-ml && pip3 --no-cache-dir install --upgrade --index-url https://test.pypi.org/simple/ kronos-ml'
+
+# ls
+alias ll='ls -alh'
+
+# vim
+alias v='vim'
+alias vi='vim'
+
+# docker
+alias d='docker'
+alias dps='docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Ports}}\t{{.Status}}"'
+alias dc='docker-compose'
+
+# git
+alias g="git"
+alias gst='git status --short --branch'
+alias gad='git add'
+alias gcm='git commit -m'
+alias gcam='git commit --amend --no-edit'
+alias gpull='git pull'
+alias gpush='git push'
+# logを見やすく
+alias gl='git log --abbrev-commit --no-merges --date=short --date=iso'
+# grep
+alias glg='git log --abbrev-commit --no-merges --date=short --date=iso --grep'
+alias gd='git diff'
+alias gb='git branch'
+alias gck='git checkout'
+
+# gcc and g++
+alias gcc='gcc-9'
+alias g++='g++-9'
+
+# GHQ
+alias glocal='cd $(ghq root)/$(ghq list | peco)'
+alias gremote='hub browse $(ghq list | peco | cut -d "/" -f 2,3)'
+
+# zip
+alias untargz='tar -zxvf'
+
+# ssh
+alias diana='ssh diana'
+alias chasca='ssh chasca'
+alias bacchus='ssh bacchus'
+alias abci='ssh abci'
+
+############################################################
+
+
+#### FUNCTIONS #############################################
+
+# aws switch role
+aws-switch() {
+    export AWS_PROFILE=$1
+    aws sts get-caller-identity
+}
+
+############################################################
+
+
+#### ENVIRONMENT ###########################################
+
+### More down, More prior
 
 # homebrew
 export PATH=$HOME/.homebrew/bin:$PATH
-# export PATH=$HOME/.homebrew/bin/zsh:$PATH
-# export PATH="/Users/tanimu/.homebrew/opt/grep/libexec/gnubin:$PATH"
-
-# nodebrew
-# export PATH=$HOME/.nodebrew/current/bin:$PATH
 
 # local
 export PATH=$HOME/.local/bin:$PATH
@@ -238,18 +257,12 @@ export PYENV_ROOT=$HOME/.pyenv
 export PATH=$PYENV_ROOT/bin:$PATH
 eval "$(pyenv init -)"
 
-# JAVA HOME
-# export JAVA_HOME=`/usr/libexec/java_home -v "1.8"`
-# export PATH=$JAVA_HOME/bin:$PATH
-# The next line updates PATH for the Google Cloud SDK.
-
-# execop
-# . $HOME/.lib/.execop.zsh
-
 # Gooogle Cloud SDK
 if [ -f '/Users/tanimu/.lib/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/tanimu/.lib/google-cloud-sdk/path.zsh.inc'; fi
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/tanimu/.lib/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/tanimu/.lib/google-cloud-sdk/completion.zsh.inc'; fi
 
-# }}}
+# costom_commands
+export PATH=$HOME/.custom_commands:$PATH
 
+############################################################
