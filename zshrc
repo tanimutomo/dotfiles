@@ -35,7 +35,7 @@ setopt share_history
 if [[ -n $(echo ${^fpath}/chpwd_recent_dirs(N)) && -n $(echo ${^fpath}/cdr(N)) ]]; then
     autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
     add-zsh-hook chpwd chpwd_recent_dirs
-    zstyle ':completion:*' recent-dirs-insert both
+    zstyle ':completion:*' recent-dirs-insert both 
     zstyle ':chpwd:*' recent-dirs-default true
     zstyle ':chpwd:*' recent-dirs-max 1000
     zstyle ':chpwd:*' recent-dirs-file "$HOME/.cache/chpwd-recent-dirs"
@@ -97,7 +97,7 @@ function peco-cdr () {
     fi
 }
 zle -N peco-cdr
-bindkey '^E' peco-cdr
+bindkey '^T' peco-cdr
 
 ############################################################
 
@@ -216,6 +216,7 @@ alias gcc='gcc-9'
 alias g++='g++-9'
 
 # GHQ
+export GHQ_ROOT='/Users/tanimu/.ghq'
 alias glocal='cd $(ghq root)/$(ghq list | peco)'
 alias gremote='hub browse $(ghq list | peco | cut -d "/" -f 2,3)'
 
@@ -227,6 +228,9 @@ alias diana='ssh diana'
 alias chasca='ssh chasca'
 alias bacchus='ssh bacchus'
 alias abci='ssh abci'
+
+# vscode
+alias code='code-insiders'
 
 ############################################################
 
@@ -242,9 +246,9 @@ aws-switch() {
 ############################################################
 
 
-#### ENVIRONMENT ###########################################
+#### PATH CONFIGURATION ###########################################
 
-### More down, More prior
+### More down, More prior ###
 
 # homebrew
 export PATH=$HOME/.homebrew/bin:$PATH
@@ -256,6 +260,9 @@ export PATH=$HOME/.local/bin:$PATH
 export PYENV_ROOT=$HOME/.pyenv
 export PATH=$PYENV_ROOT/bin:$PATH
 eval "$(pyenv init -)"
+
+# nodebrew
+export PATH=$HOME/.nodebrew/current/bin:$PATH
 
 # Gooogle Cloud SDK
 if [ -f '/Users/tanimu/.lib/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/tanimu/.lib/google-cloud-sdk/path.zsh.inc'; fi
