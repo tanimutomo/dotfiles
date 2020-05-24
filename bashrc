@@ -117,6 +117,9 @@ if ! shopt -oq posix; then
   fi
 fi
 
+# local
+export PATH=$HOME/.local/bin:$PATH
+
 export PYENV_ROOT=$HOME/.pyenv
 export PATH=$PYENV_ROOT/bin:$PATH
 eval "$(pyenv init -)"
