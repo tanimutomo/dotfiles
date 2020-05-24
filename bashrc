@@ -179,5 +179,8 @@ alias gcd='cd $(ghq root)/$(ghq list | peco)'
 
 # zip
 alias untargz='tar -zxvf'
+
+# vscode
+alias code='code-insiders'
 # }}}
 
