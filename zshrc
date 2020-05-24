@@ -217,8 +217,8 @@ alias g++='g++-9'
 
 # GHQ
 export GHQ_ROOT='/Users/tanimu/.ghq'
-alias glocal='cd $(ghq root)/$(ghq list | peco)'
-alias gremote='hub browse $(ghq list | peco | cut -d "/" -f 2,3)'
+alias gcd='cd $(ghq root)/$(ghq list | peco)'
+alias grcd='hub browse $(ghq list | peco | cut -d "/" -f 2,3)'
 
 # zip
 alias untargz='tar -zxvf'
@@ -246,12 +246,29 @@ aws-switch() {
 ############################################################
 
 
+#### GO ####################################################
+
+export GOPATH=$HOME/.go
+
+function gocd {
+    local dir="$( ls -1d ${GOPATH}/src/github.com/*/* | peco )"
+    if [ ! -z "$dir" ] ; then
+        cd "$dir"
+    fi
+}
+
+############################################################
+
+
 #### PATH CONFIGURATION ###########################################
 
-### More down, More prior ###
+### More down, Higher Priority ###
 
 # homebrew
 export PATH=$HOME/.homebrew/bin:$PATH
+
+# mysql@5.7
+export PATH=$HOME/.homebrew/opt/mysql@5.7/bin:$PATH
 
 # local
 export PATH=$HOME/.local/bin:$PATH
@@ -261,8 +278,19 @@ export PYENV_ROOT=$HOME/.pyenv
 export PATH=$PYENV_ROOT/bin:$PATH
 eval "$(pyenv init -)"
 
+# ruby and rbenv
+export PATH=$HOME/.rbenv/shims:$PATH
+eval "$(rbenv init -)"
+export RUBYOPT='-W:no-deprecated -W:no-experimental'
+
 # nodebrew
 export PATH=$HOME/.nodebrew/current/bin:$PATH
+
+# rust
+export PATH=$HOME/.cargo/bin:$PATH
+
+# GO
+export PATH=$(go env GOPATH)/bin:$PATH
 
 # Gooogle Cloud SDK
 if [ -f '/Users/tanimu/.lib/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/tanimu/.lib/google-cloud-sdk/path.zsh.inc'; fi
