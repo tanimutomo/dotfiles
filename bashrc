@@ -175,7 +175,7 @@ alias gcc='gcc-9'
 alias g++='g++-9'
 
 # GHQ
-alias glocal='cd $(ghq root)/$(ghq list | peco)'
+alias gcd='cd $(ghq root)/$(ghq list | peco)'
 
 # zip
 alias untargz='tar -zxvf'
