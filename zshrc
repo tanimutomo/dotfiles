@@ -222,15 +222,15 @@ alias grcd='hub browse $(ghq list | peco | cut -d "/" -f 2,3)'
 
 # zip
 alias untargz='tar -zxvf'
+alias untar='tar -xvf'
 
-# ssh
-alias diana='ssh diana'
-alias chasca='ssh chasca'
-alias bacchus='ssh bacchus'
-alias abci='ssh abci'
+# aws
+alias awsp="source _awsp"
 
-# vscode
-alias code='code-insiders'
+# rails
+alias be='bundle exec'
+alias br='bundle exec rails'
+alias brubo="bundle exec rubocop"
 
 ############################################################
 
@@ -241,6 +241,11 @@ alias code='code-insiders'
 aws-switch() {
     export AWS_PROFILE=$1
     aws sts get-caller-identity
+}
+
+# export .env file
+expenv() {
+    export $(cat $1 | grep -v ^# | xargs)
 }
 
 ############################################################
