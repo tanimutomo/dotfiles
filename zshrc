@@ -151,22 +151,43 @@ compctl -K _pip_completion pip3
 
 ### PROMPT #################################################
 
-PROMPT='
-%F{cyan}%n@%m / %*
-%F{yellow}%(5~,%-1~/.../%2~,%~)%f
-%F{cyan}%B● %b%f'
+# PROMPT='
+# %F{cyan}%n@%m / %*
+# %F{yellow}%(5~,%-1~/.../%2~,%~)%f
+# %F{cyan}%B● %b%f'
 # ●
 
 # vcs_info
-autoload -Uz vcs_info
-setopt prompt_subst
-zstyle ':vcs_info:git:*' check-for-changes true
-zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!"
-zstyle ':vcs_info:git:*' unstagedstr "%F{red}+"
-zstyle ':vcs_info:*' formats "%F{green}%c%u[ %b ]%f"
-zstyle ':vcs_info:*' actionformats '[%b|%a]'
-precmd () { vcs_info }
-RPROMPT='${vcs_info_msg_0_} '$RPROMPT
+# autoload -Uz vcs_info
+# setopt prompt_subst
+# zstyle ':vcs_info:git:*' check-for-changes true
+# zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!"
+# zstyle ':vcs_info:git:*' unstagedstr "%F{red}+"
+# zstyle ':vcs_info:*' formats "%F{green}%c%u[ %b ]%f"
+# zstyle ':vcs_info:*' actionformats '[%b|%a]'
+# precmd () { vcs_info }
+# RPROMPT='${vcs_info_msg_0_} '$RPROMPT
+
+fpath+=$HOME/.zsh/pure
+
+autoload -U promptinit; promptinit
+
+# optionally define some options
+PURE_CMD_MAX_EXEC_TIME=10
+
+# change the path color
+zstyle :prompt:pure:path color blue
+
+# change the color for both `prompt:success` and `prompt:error`
+zstyle ':prompt:pure:prompt:*' color cyan
+
+# turn on git stash status
+zstyle :prompt:pure:git:stash show yes
+
+# turn on execution time
+zstyle :promplt:pure:execution_time show yes
+
+prompt pure
 
 ############################################################
 
