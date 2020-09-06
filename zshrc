@@ -251,6 +251,9 @@ alias awsp="source _awsp"
 # rails
 alias be='bundle exec'
 alias br='bundle exec rails'
+alias brc='bundle exec rails console'
+alias brs='bundle exec rails server'
+alias bs='bundle exec rspec'
 alias brubo="bundle exec rubocop"
 
 ############################################################
@@ -307,7 +310,7 @@ eval "$(pyenv init -)"
 # ruby and rbenv
 export PATH=$HOME/.rbenv/shims:$PATH
 eval "$(rbenv init -)"
-export RUBYOPT='-W:no-deprecated -W:no-experimental'
+# export RUBYOPT='-W:no-deprecated -W:no-experimental'
 
 # nodebrew
 export PATH=$HOME/.nodebrew/current/bin:$PATH
@@ -322,6 +325,7 @@ export PATH=$(go env GOPATH)/bin:$PATH
 if [ -f '/Users/tanimu/.lib/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/tanimu/.lib/google-cloud-sdk/path.zsh.inc'; fi
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/tanimu/.lib/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/tanimu/.lib/google-cloud-sdk/completion.zsh.inc'; fi
+export CLOUDSDK_PYTHON=$HOME/.pyenv/versions/2.7.16/bin/python
 
 # costom_commands
 export PATH=$HOME/.custom_commands:$PATH
