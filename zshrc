@@ -236,11 +236,6 @@ alias gck='git checkout'
 alias gcc='gcc-9'
 alias g++='g++-9'
 
-# GHQ
-export GHQ_ROOT='/Users/tanimu/.ghq'
-alias gcd='cd $(ghq root)/$(ghq list | peco)'
-alias grcd='hub browse $(ghq list | peco | cut -d "/" -f 2,3)'
-
 # zip
 alias untargz='tar -zxvf'
 alias untar='tar -xvf'
@@ -267,9 +262,41 @@ aws-switch() {
     aws sts get-caller-identity
 }
 
-# export .env file
-expenv() {
+# load .env file
+lenv() {
+    if [ -z "$1" ]; then
+        echo "Please specify path to .env (arg1)"
+        return
+    fi
     export $(cat $1 | grep -v ^# | xargs)
+}
+
+# change git branch
+function cgb {
+    local b="$( gb | peco )"
+    if [ ! -z "$b" ] ; then
+        git checkout "${b:2:${#b}}"
+    fi
+}
+
+# ghq
+export GHQ_ROOT='/Users/tanimu/.ghq'
+# change git repository
+function cgr {
+    local r="$( ghq list | peco )"
+    if [ ! -z "$r" ]; then
+        cd "$(ghq root)/$r"
+    fi
+}
+
+# git push origin current branch
+function gpoc {
+    local cb=$(git symbolic-ref --short HEAD)
+    if [ -z "$cb" ]; then
+        echo "Not found current branch"
+        return
+    fi
+    git push origin $cb
 }
 
 ############################################################
@@ -279,12 +306,21 @@ expenv() {
 
 export GOPATH=$HOME/.go
 
-function gocd {
+function cgor {
     local dir="$( ls -1d ${GOPATH}/src/github.com/*/* | peco )"
     if [ ! -z "$dir" ] ; then
         cd "$dir"
     fi
 }
+
+############################################################
+
+
+#### SERVERLESS ############################################
+
+# tabtab source for packages
+# uninstall by removing these lines
+[[ -f ~/.config/tabtab/__tabtab.zsh ]] && . ~/.config/tabtab/__tabtab.zsh || true
 
 ############################################################
 
@@ -302,6 +338,9 @@ export PATH=$HOME/.homebrew/opt/mysql@5.7/bin:$PATH
 # local
 export PATH=$HOME/.local/bin:$PATH
 
+# nodebrew
+export PATH=$HOME/.nodebrew/current/bin:$PATH
+
 # pyenv environment and path
 export PYENV_ROOT=$HOME/.pyenv
 export PATH=$PYENV_ROOT/bin:$PATH
@@ -312,14 +351,19 @@ export PATH=$HOME/.rbenv/shims:$PATH
 eval "$(rbenv init -)"
 # export RUBYOPT='-W:no-deprecated -W:no-experimental'
 
-# nodebrew
-export PATH=$HOME/.nodebrew/current/bin:$PATH
+# nodenv 
+export NODENV_ROOT=$HOME/.nodenv
+export PATH=$NODENV_ROOT/bin:$PATH
+eval "$(nodenv init -)"
 
 # rust
 export PATH=$HOME/.cargo/bin:$PATH
 
 # GO
 export PATH=$(go env GOPATH)/bin:$PATH
+
+# wantedly
+export PATH=$HOME/.wantedly/bin:$PATH
 
 # Gooogle Cloud SDK
 if [ -f '/Users/tanimu/.lib/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/tanimu/.lib/google-cloud-sdk/path.zsh.inc'; fi
@@ -328,6 +372,7 @@ if [ -f '/Users/tanimu/.lib/google-cloud-sdk/completion.zsh.inc' ]; then source 
 export CLOUDSDK_PYTHON=$HOME/.pyenv/versions/2.7.16/bin/python
 
 # costom_commands
-export PATH=$HOME/.custom_commands:$PATH
+export PATH=$HOME/.commands:$PATH
 
 ############################################################
+
