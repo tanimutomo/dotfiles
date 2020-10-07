@@ -290,13 +290,23 @@ function cgr {
 }
 
 # git push origin current branch
-function gpoc {
+function gpushoc {
     local cb=$(git symbolic-ref --short HEAD)
     if [ -z "$cb" ]; then
         echo "Not found current branch"
         return
     fi
     git push origin $cb
+}
+
+# git pull origin current branch
+function gpulloc {
+    local cb=$(git symbolic-ref --short HEAD)
+    if [ -z "$cb" ]; then
+        echo "Not found current branch"
+        return
+    fi
+    git pull origin $cb
 }
 
 ############################################################
