@@ -245,11 +245,14 @@ alias awsp="source _awsp"
 
 # rails
 alias be='bundle exec'
-alias br='bundle exec rails'
-alias brc='bundle exec rails console'
-alias brs='bundle exec rails server'
-alias bs='bundle exec rspec'
+alias ber='bundle exec rails'
+alias berc='bundle exec rails console'
+alias bers='bundle exec rails server'
+alias bspec='bundle exec rspec'
 alias brubo="bundle exec rubocop"
+
+# ghq
+alias gr="ghq get"
 
 ############################################################
 
@@ -273,16 +276,17 @@ lenv() {
 
 # change git branch
 function cgb {
-    local b="$( gb | peco )"
+    local b="$( git branch | peco )"
     if [ ! -z "$b" ] ; then
         git checkout "${b:2:${#b}}"
     fi
 }
 
 # ghq
-export GHQ_ROOT='/Users/tanimu/.ghq'
+export GHQ_ROOT='/Users/tanimu/.repo/src'
+
 # change git repository
-function cgr {
+function cr {
     local r="$( ghq list | peco )"
     if [ ! -z "$r" ]; then
         cd "$(ghq root)/$r"
@@ -314,14 +318,7 @@ function gpulloc {
 
 #### GO ####################################################
 
-export GOPATH=$HOME/.go
-
-function cgor {
-    local dir="$( ls -1d ${GOPATH}/src/github.com/*/* | peco )"
-    if [ ! -z "$dir" ] ; then
-        cd "$dir"
-    fi
-}
+export GOPATH=$HOME/.repo
 
 ############################################################
 
