@@ -313,6 +313,14 @@ function gpulloc {
     git pull origin $cb
 }
 
+# open git repository with vscode
+function vs {
+    local r="$( ghq list | peco )"
+    if [ ! -z "$r" ]; then
+        code "$(ghq root)/$r"
+    fi
+}
+
 ############################################################
 
 
