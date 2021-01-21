@@ -285,12 +285,17 @@ function cgb {
 # ghq
 export GHQ_ROOT='/Users/tanimu/.repo/src'
 
-# change git repository
+# change repository
 function cr {
     local r="$( ghq list | peco )"
     if [ ! -z "$r" ]; then
         cd "$(ghq root)/$r"
     fi
+}
+
+# browse repository
+function br {
+    hub browse $(ghq list | peco | cut -d "/" -f 2,3)
 }
 
 # git push origin current branch
@@ -318,6 +323,14 @@ function vs {
     local r="$( ghq list | peco )"
     if [ ! -z "$r" ]; then
         code "$(ghq root)/$r"
+    fi
+}
+
+# open file with vim
+function vf {
+    local r="$( fd | peco )"
+    if [ ! -z "$r" ]; then
+        vim "$r"
     fi
 }
 
