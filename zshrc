@@ -254,6 +254,11 @@ alias brubo="bundle exec rubocop"
 # ghq
 alias gr="ghq get"
 
+# kube
+alias kc="kubectl"
+alias kx="kubectx"
+alias kt="kubetail"
+
 ############################################################
 
 
@@ -352,7 +357,6 @@ export GOPATH=$HOME/.repo
 
 ############################################################
 
-
 #### PATH CONFIGURATION ###########################################
 
 ### More down, Higher Priority ###
@@ -373,6 +377,10 @@ export PATH=$HOME/.nodebrew/current/bin:$PATH
 export PYENV_ROOT=$HOME/.pyenv
 export PATH=$PYENV_ROOT/bin:$PATH
 eval "$(pyenv init -)"
+
+# poetry
+export PATH="$HOME/.poetry/bin:$PATH"
+poetry completions zsh > ~/.zfunc/_poetry
 
 # ruby and rbenv
 export PATH=$HOME/.rbenv/shims:$PATH
@@ -399,8 +407,17 @@ if [ -f '/Users/tanimu/.lib/google-cloud-sdk/path.zsh.inc' ]; then source '/User
 if [ -f '/Users/tanimu/.lib/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/tanimu/.lib/google-cloud-sdk/completion.zsh.inc'; fi
 export CLOUDSDK_PYTHON=$HOME/.pyenv/versions/2.7.16/bin/python
 
+# k8s / krew
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
 # costom_commands
 export PATH=$HOME/.commands:$PATH
+
+############################################################
+
+#### KUBECTL ###########################################
+
+source <(kubectl completion zsh)
 
 ############################################################
 
