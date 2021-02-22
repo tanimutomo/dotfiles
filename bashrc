@@ -117,6 +117,32 @@ if ! shopt -oq posix; then
   fi
 fi
 
+
+### PECO ###################################################
+
+function peco-history-selection() {
+    BUFFER=`history -n 1 | tac  | awk '!a[$0]++' | peco`
+    CURSOR=$#BUFFER
+    zle reset-prompt
+}
+
+zle -N peco-history-selection
+bindkey '^R' peco-history-selection
+
+function peco-cdr () {
+    local selected_dir="$(cdr -l | sed 's/^[0-9]\+ \+//' | peco --prompt="cdr >" --query "$LBUFFER")"
+    if [ -n "$selected_dir" ]; then
+        BUFFER="cd ${selected_dir}"
+        zle accept-line
+    fi
+}
+zle -N peco-cdr
+bindkey '^T' peco-cdr
+
+############################################################
+
+
+
 # local
 export PATH=$HOME/.local/bin:$PATH
 
@@ -133,7 +159,7 @@ if [ -x "`which go`" ]; then
   export PATH="$GOPATH/bin:$PATH"
 fi
 
-# ALIAS {{{
+### ALIAS ##################################################
 
 # cd
 alias ..2='cd ../..'
@@ -141,19 +167,19 @@ alias ..3='cd ../../..'
 alias ..4='cd ../../../..'
 
 # kronos
+# export PATH=$HOME/.usr/kronos/bin:$PATH
 alias kronos-update='pip3 uninstall kronos-ml && python3 setup.py build && python3 setup.py install && source ~/.zshrc && which kronos'
 alias kronos-update-pypi='pip3 uninstall kronos-ml && pip3 --no-cache-dir install --upgrade --index-url https://test.pypi.org/simple/ kronos-ml'
 
-# ls alias
+# ls
 alias ll='ls -alh'
 
-# vim alias
+# vim
 alias v='vim'
 alias vi='vim'
 
 # docker
 alias d='docker'
-# デフォルトだと見切れるので、表示項目を変更しています。
 alias dps='docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Ports}}\t{{.Status}}"'
 alias dc='docker-compose'
 
@@ -161,7 +187,6 @@ alias dc='docker-compose'
 alias g="git"
 alias gst='git status --short --branch'
 alias gad='git add'
-alias gck='git checkout'
 alias gcm='git commit -m'
 alias gcam='git commit --amend --no-edit'
 alias gpull='git pull'
@@ -172,18 +197,115 @@ alias gl='git log --abbrev-commit --no-merges --date=short --date=iso'
 alias glg='git log --abbrev-commit --no-merges --date=short --date=iso --grep'
 alias gd='git diff'
 alias gb='git branch'
+alias gck='git checkout'
 
-# path for gcc and g++
+# gcc and g++
 alias gcc='gcc-9'
 alias g++='g++-9'
 
-# GHQ
-alias gcd='cd $(ghq root)/$(ghq list | peco)'
-
 # zip
 alias untargz='tar -zxvf'
+alias untar='tar -xvf'
 
-# vscode
-alias code='code-insiders'
-# }}}
+# aws
+alias awsp="source _awsp"
+
+# rails
+alias be='bundle exec'
+alias ber='bundle exec rails'
+alias berc='bundle exec rails console'
+alias bers='bundle exec rails server'
+alias bspec='bundle exec rspec'
+alias brubo="bundle exec rubocop"
+
+# ghq
+alias gr="ghq get"
+
+# kube
+alias kc="kubectl"
+alias kx="kubectx"
+alias kt="kubetail"
+
+############################################################
+
+
+#### FUNCTIONS #############################################
+
+# aws switch role
+aws-switch() {
+    export AWS_PROFILE=$1
+    aws sts get-caller-identity
+}
+
+# load .env file
+lenv() {
+    if [ -z "$1" ]; then
+        echo "Please specify path to .env (arg1)"
+        return
+    fi
+    export $(cat $1 | grep -v ^# | xargs)
+}
+
+# change git branch
+function cgb {
+    local b="$( git branch | peco )"
+    if [ ! -z "$b" ] ; then
+        git checkout "${b:2:${#b}}"
+    fi
+}
+
+# ghq
+export GHQ_ROOT='/Users/tanimu/.repo/src'
+
+# change repository
+function cr {
+    local r="$( ghq list | peco )"
+    if [ ! -z "$r" ]; then
+        cd "$(ghq root)/$r"
+    fi
+}
+
+# browse repository
+function br {
+    hub browse $(ghq list | peco | cut -d "/" -f 2,3)
+}
+
+# git push origin current branch
+function gpushoc {
+    local cb=$(git symbolic-ref --short HEAD)
+    if [ -z "$cb" ]; then
+        echo "Not found current branch"
+        return
+    fi
+    git push origin $cb
+}
+
+# git pull origin current branch
+function gpulloc {
+    local cb=$(git symbolic-ref --short HEAD)
+    if [ -z "$cb" ]; then
+        echo "Not found current branch"
+        return
+    fi
+    git pull origin $cb
+}
+
+# open git repository with vscode
+function vs {
+    local r="$( ghq list | peco )"
+    if [ ! -z "$r" ]; then
+        code "$(ghq root)/$r"
+    fi
+}
+
+# open file with vim
+function vf {
+    local r="$( fd | peco )"
+    if [ ! -z "$r" ]; then
+        vim "$r"
+    fi
+}
+
+############################################################
+
 
