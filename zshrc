@@ -104,6 +104,9 @@ bindkey '^T' peco-cdr
 
 ### COMPLETION #############################################
 
+# poetry completions
+fpath+=~/.zfunc
+
 # 補完機能有効にする
 autoload -U compinit
 compinit -u
