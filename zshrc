@@ -389,6 +389,7 @@ poetry completions zsh > ~/.zfunc/_poetry
 export PATH=$HOME/.rbenv/shims:$PATH
 eval "$(rbenv init -)"
 # export RUBYOPT='-W:no-deprecated -W:no-experimental'
+export FREEDESKTOP_MIME_TYPES_PATH=$HOME/.homebrew/share/mime/packages/freedesktop.org.xml
 
 # nodenv 
 export NODENV_ROOT=$HOME/.nodenv
